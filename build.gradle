@@ -1,0 +1,66 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.25.0'
+}
+
+group 'org.example'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainModule = 'org.example.encryptionlaba1'
+    mainClass = 'org.example.encryptionlaba1.Main'
+}
+
+javafx {
+    version = '21'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jlink {
+    launcher {
+        name = 'EncryptionApp'
+    }
+}
+
+tasks.register('packageApp', Exec) {
+    dependsOn jlink
+    group = 'distribution'
+    description = 'Create Windows installer using jpackage'
+
+    commandLine = [
+            'jpackage',
+            '--type', 'exe',  // Указываем, что нужно создать .exe
+            '--name', 'EncryptionApp',
+            '--app-version', '1.0',
+            '--input', "$buildDir/jlink", // Папка с jlink-сборкой
+            '--main-jar', 'EncryptionApp.jar', // Основной JAR
+            '--main-class', 'org.example.encryptionlaba1.Main',
+            '--dest', "$buildDir/installer", // Куда сохранить .exe
+            '--win-menu',
+            '--win-shortcut',
+            '--win-dir-chooser'
+    ]
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.encryptionlaba1.controllers.MainController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Button text="Выбрать файл" onAction="#selectFile"/>
+    <TextField fx:id="keyField" promptText="Введите ключ"/>
+
+    <TextArea fx:id="inputTextArea" promptText="Введите текст для шифрования/дешифрования" wrapText="true" prefHeight="100"/>
+
+    <HBox spacing="10">
+        <Button text="Зашифровать (Столбц.)" onAction="#encryptColumnar"/>
+        <Button text="Расшифровать (Столбц.)" onAction="#decryptColumnar"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Зашифровать (Виженер)" onAction="#encryptVigenere"/>
+        <Button text="Расшифровать (Виженер)" onAction="#decryptVigenere"/>
+    </HBox>
+
+    <TextArea fx:id="outputArea" editable="false" wrapText="true" prefHeight="200"/>
+    <Button text="Сохранить в файл" onAction="#saveOutputToFile"/>
+</VBox>
